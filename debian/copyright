@@ -1,0 +1,85 @@
+Upstream-Contact: FreeRDP project <freerdp-devel@lists.sourceforge.net>
+Upstream-Homepage: http://freerdp.sourceforge.net/
+
+Files: *, channels/common/chan_stream.*
+Copyright:
+ (C) 1999-2000 Matthew Chapman
+ (C) 2000 Tim Edmonds
+ (C) 2001 James "Wez" Weatherall
+ (C) 2001 Johannes E. Schindelin
+ (C) 2003 GuoJunBo <guojunbo@ict.ac.cn>
+ (C) 2003-2004 X/IO Labs, xiolabs.com.
+ (C) 2003-2006 Lev Walkin <vlm@lionet.info>.
+ (C) 2003-2008 Erik Forsberg <forsberg@cendio.se>
+ (C) 2003-2008 Jeroen Meijer
+ (C) 2003-2008 Michael Gernoth <mike@zerfleddert.de>
+ (C) 2004-2005 Jeremy Meng <void.foo@gmail.com>
+ (C) 2004-2008 Peter Astrand
+ (C) 2006 Alexi Volkov <alexi@myrealbox.com>
+ (C) 2006-2008 Pierre Ossman <ossman@cendio.se>
+ (C) 2009-2010 Marc-Andre Moreau <marcandre.moreau@gmail.com>
+ (C) 2004-2010 Jay Sorg
+ (C) 2010 Vic Lee
+License: GPL-2 with OpenSSL exception
+ This program is free software; you can redistribute it
+ and/or modify it under the terms of the GNU General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later
+ version.
+ .
+ In addition, as a special exception, the author of this
+ program gives permission to link the code of its 
+ release with the OpenSSL project's "OpenSSL" library (or
+ with modified versions of it that use the same license as
+ the "OpenSSL" library), and distribute the linked
+ executables. You must obey the GNU General Public 
+ License in all respects for all of the code used other 
+ than "OpenSSL".  If you modify this file, you may extend
+ this exception to your version of the file, but you are
+ not obligated to do so.  If you do not wish to do so,
+ delete this exception statement from your version.
+ .
+ This program is distributed in the hope that it will be
+ useful, but WITHOUT ANY WARRANTY; without even the implied
+ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE.  See the GNU General Public License for more
+ details.
+ .
+ You should have received a copy of the GNU General Public
+ License along with this package; if not, write to the Free
+ Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ Boston, MA  02110-1301 USA
+ .
+ On Debian systems, the full text of the GNU General Public
+ License version 2 can be found in the file
+ `/usr/share/common-licenses/GPL-2'.
+
+Files: X11/*, dfb/*, channels/common/*, channels/clipdr/*
+Copyright:
+ (C) 2009-2010 Jay Sorg
+ (C) 2010 Vic Lee
+License: MIT or BSD
+
+Files: asn1/*
+Copyright: (C) 2003, 2004 Lev Walkin <vlm@lionet.info>
+License: BSD
+
+Files: debian/*
+Copyright: (C) 2010 Otavio Salvador <otavio@debian.org>
+License: GPL-2+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ .
+ On Debian systems, the complete text of the GNU General Public License
+ can be found in /usr/share/common-licenses/GPL-2 file.

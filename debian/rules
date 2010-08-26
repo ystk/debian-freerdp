@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+
+%:
+	dh ${@}
+
+override_dh_install:
+	# Removing unused files
+	rm -f debian/tmp/usr/lib/*.la
+	rm -f debian/tmp/usr/lib/freerdp/*.la
+
+	dh_install --fail-missing
+
+override_dh_strip:
+	dh_strip --dbg-package=freerdp-dbg
