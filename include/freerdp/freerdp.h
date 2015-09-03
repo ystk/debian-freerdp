@@ -1,148 +1,239 @@
-/*
-   Copyright (c) 2009-2010 Jay Sorg
+/**
+ * FreeRDP: A Remote Desktop Protocol Implementation
+ * FreeRDP Interface
+ *
+ * Copyright 2009-2011 Jay Sorg
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-   Permission is hereby granted, free of charge, to any person obtaining a
-   copy of this software and associated documentation files (the "Software"),
-   to deal in the Software without restriction, including without limitation
-   the rights to use, copy, modify, merge, publish, distribute, sublicense,
-   and/or sell copies of the Software, and to permit persons to whom the
-   Software is furnished to do so, subject to the following conditions:
+#ifndef FREERDP_H
+#define FREERDP_H
 
-   The above copyright notice and this permission notice shall be included
-   in all copies or substantial portions of the Software.
+typedef struct rdp_rdp rdpRdp;
+typedef struct rdp_gdi rdpGdi;
+typedef struct rdp_rail rdpRail;
+typedef struct rdp_cache rdpCache;
+typedef struct rdp_channels rdpChannels;
+typedef struct rdp_graphics rdpGraphics;
 
-   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-   DEALINGS IN THE SOFTWARE.
-*/
+typedef struct rdp_freerdp freerdp;
+typedef struct rdp_context rdpContext;
+typedef struct rdp_freerdp_peer freerdp_peer;
 
-#ifndef __FREERDP_H
-#define __FREERDP_H
+typedef struct rdp_client_context rdpClientContext;
+typedef struct rdp_client_entry_points_v1 RDP_CLIENT_ENTRY_POINTS_V1;
+typedef RDP_CLIENT_ENTRY_POINTS_V1 RDP_CLIENT_ENTRY_POINTS;
 
-#include <freerdp/rdpset.h>
-#include <freerdp/types_ui.h>
-#include <freerdp/constants_ui.h>
+#include <freerdp/api.h>
+#include <freerdp/types.h>
+#include <freerdp/error.h>
+#include <freerdp/event.h>
+#include <freerdp/settings.h>
+#include <freerdp/extension.h>
 
-#define FREERDP_INTERFACE_VERSION 2
+#include <winpr/stream.h>
 
-#if defined _WIN32 || defined __CYGWIN__
-  #ifdef FREERDP_EXPORTS
-    #ifdef __GNUC__
-      #define FREERDP_API __attribute__((dllexport))
-    #else
-      #define FREERDP_API __declspec(dllexport)
-    #endif
-  #else
-    #ifdef __GNUC__
-      #define FREERDP_API __attribute__((dllimport))
-    #else
-      #define FREERDP_API __declspec(dllimport)
-    #endif
-  #endif
-#else
-  #if __GNUC__ >= 4
-    #define FREERDP_API   __attribute__ ((visibility("default")))
-  #else
-    #define FREERDP_API
-  #endif
-#endif
+#include <freerdp/input.h>
+#include <freerdp/update.h>
+#include <freerdp/message.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct rdp_inst
+typedef int (*pContextNew)(freerdp* instance, rdpContext* context);
+typedef void (*pContextFree)(freerdp* instance, rdpContext* context);
+
+typedef BOOL (*pPreConnect)(freerdp* instance);
+typedef BOOL (*pPostConnect)(freerdp* instance);
+typedef BOOL (*pAuthenticate)(freerdp* instance, char** username, char** password, char** domain);
+typedef BOOL (*pVerifyCertificate)(freerdp* instance, char* subject, char* issuer, char* fingerprint);
+typedef BOOL (*pVerifyChangedCertificate)(freerdp* instance, char* subject, char* issuer, char* new_fingerprint, char* old_fingerprint);
+
+typedef int (*pLogonErrorInfo)(freerdp* instance, UINT32 data, UINT32 type);
+
+typedef int (*pSendChannelData)(freerdp* instance, int channelId, BYTE* data, int size);
+typedef int (*pReceiveChannelData)(freerdp* instance, int channelId, BYTE* data, int size, int flags, int total_size);
+
+/**
+ * Defines the context for a given instance of RDP connection.
+ * It is embedded in the rdp_freerdp structure, and allocated by a call to freerdp_context_new().
+ * It is deallocated by a call to freerdp_context_free().
+ */
+struct rdp_context
 {
-	int version;
-	int size;
-	rdpSet * settings;
-	void * rdp;
-	void * param1;
-	void * param2;
-	void * param3;
-	void * param4;
-	uint32 disc_reason;
-	/* calls from ui to library */
-	int (* rdp_connect)(rdpInst * inst);
-	int (* rdp_get_fds)(rdpInst * inst, void ** read_fds, int * read_count,
-		void ** write_fds, int * write_count);
-	int (* rdp_check_fds)(rdpInst * inst);
-	int (* rdp_send_input)(rdpInst * inst, int message_type, int device_flags,
-		int param1, int param2);
-	int (* rdp_sync_input)(rdpInst * inst, int toggle_flags);
-	int (* rdp_channel_data)(rdpInst * inst, int chan_id, char * data, int data_size);
-	void (* rdp_disconnect)(rdpInst * inst);
-	/* calls from library to ui */
-	void (* ui_error)(rdpInst * inst, char * text);
-	void (* ui_warning)(rdpInst * inst, char * text);
-	void (* ui_unimpl)(rdpInst * inst, char * text);
-	void (* ui_begin_update)(rdpInst * inst);
-	void (* ui_end_update)(rdpInst * inst);
-	void (* ui_desktop_save)(rdpInst * inst, int offset, int x, int y,
-		int cx, int cy);
-	void (* ui_desktop_restore)(rdpInst * inst, int offset, int x, int y,
-		int cx, int cy);
-	RD_HBITMAP (* ui_create_bitmap)(rdpInst * inst, int width, int height, uint8 * data);
-	void (* ui_paint_bitmap)(rdpInst * inst, int x, int y, int cx, int cy, int width,
-		int height, uint8 * data);
-	void (* ui_destroy_bitmap)(rdpInst * inst, RD_HBITMAP bmp);
-	void (* ui_line)(rdpInst * inst, uint8 opcode, int startx, int starty, int endx,
-		int endy, RD_PEN * pen);
-	void (* ui_rect)(rdpInst * inst, int x, int y, int cx, int cy, int colour);
-	void (* ui_polygon)(rdpInst * inst, uint8 opcode, uint8 fillmode, RD_POINT * point,
-		int npoints, RD_BRUSH * brush, int bgcolour, int fgcolour);
-	void (* ui_polyline)(rdpInst * inst, uint8 opcode, RD_POINT * points, int npoints,
-		RD_PEN * pen);
-	void (* ui_ellipse)(rdpInst * inst, uint8 opcode, uint8 fillmode, int x, int y,
-		int cx, int cy, RD_BRUSH * brush, int bgcolour, int fgcolour);
-	void (* ui_start_draw_glyphs)(rdpInst * inst, int bgcolour, int fgcolour);
-	void (* ui_draw_glyph)(rdpInst * inst, int x, int y, int cx, int cy,
-		RD_HGLYPH glyph);
-	void (* ui_end_draw_glyphs)(rdpInst * inst, int x, int y, int cx, int cy);
-	uint32 (* ui_get_toggle_keys_state)(rdpInst * inst);
-	void (* ui_bell)(rdpInst * inst);
-	void (* ui_destblt)(rdpInst * inst, uint8 opcode, int x, int y, int cx, int cy);
-	void (* ui_patblt)(rdpInst * inst, uint8 opcode, int x, int y, int cx, int cy,
-		RD_BRUSH * brush, int bgcolour, int fgcolour);
-	void (* ui_screenblt)(rdpInst * inst, uint8 opcode, int x, int y, int cx, int cy,
-		int srcx, int srcy);
-	void (* ui_memblt)(rdpInst * inst, uint8 opcode, int x, int y, int cx, int cy,
-		RD_HBITMAP src, int srcx, int srcy);
-	void (* ui_triblt)(rdpInst * inst, uint8 opcode, int x, int y, int cx, int cy,
-		RD_HBITMAP src, int srcx, int srcy, RD_BRUSH * brush, int bgcolour, int fgcolour);
-	RD_HGLYPH (* ui_create_glyph)(rdpInst * inst, int width, int height, uint8 * data);
-	void (* ui_destroy_glyph)(rdpInst * inst, RD_HGLYPH glyph);
-	int (* ui_select)(rdpInst * inst, int rdp_socket);
-	void (* ui_set_clip)(rdpInst * inst, int x, int y, int cx, int cy);
-	void (* ui_reset_clip)(rdpInst * inst);
-	void (* ui_resize_window)(rdpInst * inst);
-	void (* ui_set_cursor)(rdpInst * inst, RD_HCURSOR cursor);
-	void (* ui_destroy_cursor)(rdpInst * inst, RD_HCURSOR cursor);
-	RD_HCURSOR (* ui_create_cursor)(rdpInst * inst, unsigned int x, unsigned int y,
-		int width, int height, uint8 * andmask, uint8 * xormask, int bpp);
-	void (* ui_set_null_cursor)(rdpInst * inst);
-	void (* ui_set_default_cursor)(rdpInst * inst);
-	RD_HCOLOURMAP (* ui_create_colourmap)(rdpInst * inst, RD_COLOURMAP * colours);
-	void (* ui_move_pointer)(rdpInst * inst, int x, int y);
-	void (* ui_set_colourmap)(rdpInst * inst, RD_HCOLOURMAP map);
-	RD_HBITMAP (* ui_create_surface)(rdpInst * inst, int width, int height, RD_HBITMAP old);
-	void (* ui_set_surface)(rdpInst * inst, RD_HBITMAP surface);
-	void (* ui_destroy_surface)(rdpInst * inst, RD_HBITMAP surface);
-	void (* ui_channel_data)(rdpInst * inst, int chan_id, char * data, int data_size,
-		int flags, int total_size);
+	ALIGN64 freerdp* instance; /**< (offset 0)
+						  Pointer to a rdp_freerdp structure.
+						  This is a back-link to retrieve the freerdp instance from the context.
+						  It is set by the freerdp_context_new() function */
+	ALIGN64 freerdp_peer* peer; /**< (offset 1)
+						   Pointer to the client peer.
+						   This is set by a call to freerdp_peer_context_new() during peer initialization.
+						   This field is used only on the server side. */
+	UINT64 paddingA[16 - 2]; /* 2 */
+
+	ALIGN64 int argc;	/**< (offset 16)
+				   Number of arguments given to the program at launch time.
+				   Used to keep this data available and used later on, typically just before connection initialization.
+				   @see freerdp_parse_args() */
+	ALIGN64 char** argv; /**< (offset 17)
+					List of arguments given to the program at launch time.
+					Used to keep this data available and used later on, typically just before connection initialization.
+					@see freerdp_parse_args() */
+
+	ALIGN64 wPubSub* pubSub; /* (offset 18) */
+
+	UINT64 paddingB[32 - 19]; /* 19 */
+
+	ALIGN64 rdpRdp* rdp; /**< (offset 32)
+					Pointer to a rdp_rdp structure used to keep the connection's parameters.
+					It is allocated by freerdp_context_new() and deallocated by freerdp_context_free(), at the same
+					time that this rdp_context structure - there is no need to specifically allocate/deallocate this. */
+	ALIGN64 rdpGdi* gdi; /**< (offset 33)
+					Pointer to a rdp_gdi structure used to keep the gdi settings.
+					It is allocated by gdi_init() and deallocated by gdi_free().
+					It must be deallocated before deallocating this rdp_context structure. */
+	ALIGN64 rdpRail* rail; /* 34 */
+	ALIGN64 rdpCache* cache; /* 35 */
+	ALIGN64 rdpChannels* channels; /* 36 */
+	ALIGN64 rdpGraphics* graphics; /* 37 */
+	ALIGN64 rdpInput* input; /* 38 */
+	ALIGN64 rdpUpdate* update; /* 39 */
+	ALIGN64 rdpSettings* settings; /* 40 */
+	UINT64 paddingC[64 - 41]; /* 41 */
+
+	UINT64 paddingD[96 - 64]; /* 64 */
+	UINT64 paddingE[128 - 96]; /* 96 */
 };
 
-FREERDP_API rdpInst *
-freerdp_new(rdpSet * settings);
-FREERDP_API void
-freerdp_free(rdpInst * inst);
+#include <freerdp/client.h>
+
+/** Defines the options for a given instance of RDP connection.
+ *  This is built by the client and given to the FreeRDP library to create the connection
+ *  with the expected options.
+ *  It is allocated by a call to freerdp_new() and deallocated by a call to freerdp_free().
+ *  Some of its content need specific allocation/deallocation - see field description for details.
+ */
+struct rdp_freerdp
+{
+	ALIGN64 rdpContext* context; /**< (offset 0)
+							  Pointer to a rdpContext structure.
+							  Client applications can use the ContextSize field to register a context bigger than the rdpContext
+							  structure. This allow clients to use additional context information.
+							  When using this capability, client application should ALWAYS declare their structure with the
+							  rdpContext field first, and any additional content following it.
+							  Can be allocated by a call to freerdp_context_new().
+							  Must be deallocated by a call to freerdp_context_free() before deallocating the current instance. */
+
+	ALIGN64 RDP_CLIENT_ENTRY_POINTS* pClientEntryPoints;
+
+	UINT64 paddingA[16 - 2]; /* 2 */
+
+	ALIGN64 rdpInput* input; /* (offset 16)
+						Input handle for the connection.
+						Will be initialized by a call to freerdp_context_new() */
+	ALIGN64 rdpUpdate* update; /* (offset 17)
+						  Update display parameters. Used to register display events callbacks and settings.
+						  Will be initialized by a call to freerdp_context_new() */
+	ALIGN64 rdpSettings* settings; /**< (offset 18)
+								Pointer to a rdpSettings structure. Will be used to maintain the required RDP settings.
+								Will be initialized by a call to freerdp_context_new() */
+	UINT64 paddingB[32 - 19]; /* 19 */
+
+	ALIGN64 size_t ContextSize; /* (offset 32)
+							Specifies the size of the 'context' field. freerdp_context_new() will use this size to allocate the context buffer.
+							freerdp_new() sets it to sizeof(rdpContext).
+							If modifying it, there should always be a minimum of sizeof(rdpContext), as the freerdp library will assume it can use the
+							'context' field to set the required informations in it.
+							Clients will typically make it bigger, and use a context structure embedding the rdpContext, and
+							adding additional information after that.
+						 */
+
+	ALIGN64 pContextNew ContextNew; /**< (offset 33)
+								 Callback for context allocation
+								 Can be set before calling freerdp_context_new() to have it executed after allocation and initialization.
+								 Must be set to NULL if not needed. */
+
+	ALIGN64 pContextFree ContextFree; /**< (offset 34)
+								   Callback for context deallocation
+								   Can be set before calling freerdp_context_free() to have it executed before deallocation.
+								   Must be set to NULL if not needed. */
+	UINT64 paddingC[48 - 35]; /* 35 */
+
+	ALIGN64 pPreConnect PreConnect; /**< (offset 48)
+								 Callback for pre-connect operations.
+								 Can be set before calling freerdp_connect() to have it executed before the actual connection happens.
+								 Must be set to NULL if not needed. */
+
+	ALIGN64 pPostConnect PostConnect; /**< (offset 49)
+								   Callback for post-connect operations.
+								   Can be set before calling freerdp_connect() to have it executed after the actual connection has succeeded.
+								   Must be set to NULL if not needed. */
+
+	ALIGN64 pAuthenticate Authenticate; /**< (offset 50)
+									 Callback for authentication.
+									 It is used to get the username/password when it was not provided at connection time. */
+	ALIGN64 pVerifyCertificate VerifyCertificate; /**< (offset 51)
+											   Callback for certificate validation.
+											   Used to verify that an unknown certificate is trusted. */
+	ALIGN64 pVerifyChangedCertificate VerifyChangedCertificate; /**< (offset 52)
+															 Callback for changed certificate validation. 
+															 Used when a certificate differs from stored fingerprint.
+															 If returns TRUE, the new fingerprint will be trusted and old thrown out. */
+
+	ALIGN64 pLogonErrorInfo LogonErrorInfo; /**< (offset 53)  Callback for logon error info, important for logon system messages with RemoteApp */
+
+	UINT64 paddingD[64 - 54]; /* 54 */
+
+	ALIGN64 pSendChannelData SendChannelData; /* (offset 64)
+										 Callback for sending data to a channel.
+										 By default, it is set by freerdp_new() to freerdp_send_channel_data(), which eventually calls
+										 freerdp_channel_send() */
+	ALIGN64 pReceiveChannelData ReceiveChannelData; /* (offset 65)
+											   Callback for receiving data from a channel.
+											   This is called by freerdp_channel_process() (if not NULL).
+											   Clients will typically use a function that calls freerdp_channels_data() to perform the needed tasks. */
+
+	UINT64 paddingE[80 - 66]; /* 66 */
+};
+
+FREERDP_API int freerdp_context_new(freerdp* instance);
+FREERDP_API void freerdp_context_free(freerdp* instance);
+
+FREERDP_API BOOL freerdp_connect(freerdp* instance);
+FREERDP_API BOOL freerdp_shall_disconnect(freerdp* instance);
+FREERDP_API BOOL freerdp_disconnect(freerdp* instance);
+
+FREERDP_API BOOL freerdp_get_fds(freerdp* instance, void** rfds, int* rcount, void** wfds, int* wcount);
+FREERDP_API BOOL freerdp_check_fds(freerdp* instance);
+
+FREERDP_API wMessageQueue* freerdp_get_message_queue(freerdp* instance, DWORD id);
+FREERDP_API HANDLE freerdp_get_message_queue_event_handle(freerdp* instance, DWORD id);
+FREERDP_API int freerdp_message_queue_process_message(freerdp* instance, DWORD id, wMessage* message);
+FREERDP_API int freerdp_message_queue_process_pending_messages(freerdp* instance, DWORD id);
+
+FREERDP_API UINT32 freerdp_error_info(freerdp* instance);
+
+FREERDP_API void freerdp_get_version(int* major, int* minor, int* revision);
+
+FREERDP_API freerdp* freerdp_new(void);
+FREERDP_API void freerdp_free(freerdp* instance);
+
+FREERDP_API BOOL freerdp_focus_required(freerdp* instance);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif
+#endif /* FREERDP_H */

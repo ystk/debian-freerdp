@@ -1,49 +1,36 @@
-==========================================
-rdesktop: A Remote Desktop Protocol client
-==========================================
+FreeRDP: A Remote Desktop Protocol Implementation
+=================================================
 
-rdesktop is a client for Microsoft Windows NT Terminal Server, Windows 2000
-Terminal Services, Windows 2003 Terminal Services/Remote Desktop, Windows XP
-Remote Desktop, and possibly other Terminal Services products.
-rdesktop currently implements the RDP version 4 and 5 protocols.
+FreeRDP is a free implementation of the Remote Desktop Protocol (RDP), released under the Apache license.
+Enjoy the freedom of using your software wherever you want, the way you want it, in a world where
+interoperability can finally liberate your computing experience.
 
-Installation
-------------
-rdesktop uses a GNU-style build procedure.  Typically all that is necessary
-to install rdesktop is the following::
+Resources
+---------
 
-	% ./configure
-	% make
-	% make install
+Project website: http://www.freerdp.com/
+Issue tracker: https://github.com/FreeRDP/FreeRDP/issues
+Sources: https://github.com/FreeRDP/FreeRDP/
+Wiki: https://github.com/FreeRDP/FreeRDP/wiki
+Downloads and other resources: http://pub.freerdp.com
+API doc: http://pub.freerdp.com/api/
 
-The default is to install under /usr/local.  This can be changed by adding
---prefix=directory to the configure line.
+IRC channel: #freerdp @ irc.freenode.net
+Mailing list: https://lists.sourceforge.net/lists/listinfo/freerdp-devel
 
-Note for CVS users
-------------------
-If you have downloaded a snapshot of rdesktop using CVS, you will first need to
-run ./bootstrap in order to generate the build infrastructure.  This is not
-necessary for release versions of rdesktop.
+Microsoft Open Specifications
+-----------------------------
 
-Invocation
-----------
-Simply run::
+Information regarding the Microsoft Open Specifications can be found at:
+http://www.microsoft.com/openspecifications/
 
-	% rdesktop server
+A list of reference documentation is maintained here:
+https://github.com/FreeRDP/FreeRDP/wiki/Reference-Documentation
 
-where server is the name of the Terminal Services machine.  (If you receive
-"Connection refused", this probably means that the server does not have
-Terminal Services enabled, or there is a firewall blocking access.)
+Compilation
+-----------
 
-You can also specify a number of options on the command line.  These are listed
-in the rdesktop manual page (run "man rdesktop").
+Instructions on how to get started compiling FreeRDP can be found on the wiki:
+https://github.com/FreeRDP/FreeRDP/wiki/Compilation
 
-Smart-card support notes
-------------------------
-The smart-card support module uses PCSC-lite. You should use PCSC-lite 1.2.9 or
-later.
-
-To enable smart-card support in the rdesktop just run "./configure" with the
-"--enable-smartcard" option. Also you can enable smart-card debug with
-additional "--with-debug-smartcard" option.
 
