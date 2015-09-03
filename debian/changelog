@@ -1,0 +1,360 @@
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-4) unstable; urgency=medium
+
+  * debian/patches:
+    + Add 0002_handle-old-style-cmdline-options.patch. Command line detection
+      is run with dummy settings where not everything is allocated. Collections
+      (device, dynamic channel and static channel) didn't handle this case
+      properly. (Closes: #779312).
+    + Add 0003_copy-data-when-adding-glyph-to-cache.patch. Copy data when adding
+      glyph to cache. Fix double free or corruption inupdate_gdi_fast_glyph ->
+      glyph_cache_put -> _int_free (Closes: #740637).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 10 Mar 2015 21:28:34 +0100
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-3) unstable; urgency=medium
+
+  [ Bernhard Miklautz ]
+  * debian/patches:
+    + Add patch 0001_fix-cmdline-parser.patch (picked from upstream).
+      Fix and improve command line parser. (Closes: #759361).
+
+  [ Mike Gabriel ]
+  * debian/copyright:
+    + Mention new file client/common/test/TestClientCmdLine.c.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Fri, 13 Feb 2015 05:30:13 +0100
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-2) unstable; urgency=medium
+
+  * debian/control:
+    + Add B-D: libxrandr-dev.
+  * debian/patches:
+    + Add 1007_detect-arm-arch-correctly.patch. Detect arm architecture
+      correctly. (Closes: #758565).
+    + Add 1008_gcc-fPIC-on-arm64.patch. Enable -fPIC linker option for arm64
+      and armhf builds.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 07 Oct 2014 22:42:23 +0200
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-1.1) unstable; urgency=medium
+
+  [ Aurelien Jarno ]
+  * Non-maintainer upload.
+  * Fix testsuite issues (closes: #762591):
+    - Add 1004_64-bit-architectures.patch to correctly support non-amd64
+      64-bit architectures.
+    - Add 1005_parse-buffer-endianess.patch to correctly parse RDP buffer
+      on bug endian architectures.
+    - Add 1006_test-unicode-endianess.patch to convert the expected
+      results from native endian to little endian.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 28 Sep 2014 18:51:09 +0200
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-1) unstable; urgency=medium
+
+  [ Mike Gabriel ]
+  * New Git snapshot upload to unstable:
+    - Obtained from stable-1.1 branch of http://github.com/FreeRDP/FreeRDP.
+      Using commit hash: 440916eae2e07463912d5fe507677e67096eb083.
+  * debian/control:
+    + Add B-D: cdbs.
+    + Add B-D: libgstreamer-plugins-base0.10-dev.
+    + Split out libwinpr-dev from libfreerdp-dev and libwinpr-dbg from
+      libwinpr-dbg from libfreerdp-dbg.
+    + Use more meaningful SYNOPSIS for libwinpr* packages.
+    + The lib*-dev packages are now Multi-Arch:same packages.
+  * debian/rules:
+    + Switch over to CDBS based packaging.
+    + Don't ship static library files.
+    + Enable unit tests.
+    + Split out libwinpr-dbg from libfreerdp-dbg.
+    + Enable multi-arch path for include directory.
+    + Add -DWITH_GSTREAMER as cmake flag.
+    + Set cmake's RPATH build settings correctly.
+    + Drop upstream script, that would force us to list MPL-2.0 in
+      debian/copyright.
+  * debian/lib*-dev.install:
+    + Reflect libwinpr-dev split-out in installation of development files.
+  * debian/patches:
+    + Drop 0001_handle-user@corp.net-username-correctly.patch. It is contained
+      in the latest upstream Git snapshot.
+    + Drop 1003_fix-header-inclusion.patch. More elegantly solved by upstream
+      in latest upstream Git snapshot.
+    + Add 1003_multi-arch-include-path.patch. Allow multi-arch compliant paths
+      in lib*-dev packages.
+  * debian/copyright:
+    + Add so far non-mentioned upstream source/cmake/helper files.
+    + Don't use blanks in short license names.
+    + Move UNICODE license text to end of file.
+    + Add license for debian/*.
+  * lintian:
+    + Tolerate too-long file name in libfreerdp-plugins-standard. Nothing we
+      can do about it at the moment.
+
+  [ Sebastian Ramacher ]
+  * Split shared libraries into separate packages to avoid breakage if the
+    SONAME changes are not done at the same time for every library. (Closes:
+    #757605)
+  * Ignore plugins when running dh_makeshlibs to fix lintian warnings and
+    errors in libfreerdp-plugins-standard.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 22 Sep 2014 21:40:55 +0200
+
+freerdp (1.1.0~git20140809.1.b07a5c1+dfsg-4) unstable; urgency=medium
+
+  * debian/patches:
+    + Add 1003_fix-header-inclusion.patch. Make sure that winpr headers are
+      complete (esp. cmake-generated config.h). (Closes: #758981).
+    + Refresh 2001_detect-ffmpeg-on-Debian.patch.
+    + Add 0001_handle-user@corp.net-username-correctly.patch. Do not break
+      up the name for '@'; both credSSP and the ClientInfo PDU expect
+      'user@corp.net' to be transmitted as username 'user@corp.net', domain
+      empty.
+  * debian/watch:
+    + Fix syntax error.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 24 Aug 2014 01:16:50 +0200
+
+freerdp (1.1.0~git20140809.1.b07a5c1+dfsg-3) unstable; urgency=medium
+
+  [ Sebastian Ramacher ]
+  * debian/patches/1001_hide-internal-symbols.patch: Hide internal symbols.
+    They do not need to be part of the public ABI. (Closes: #758155)
+  * debian/patches/1002_update-pkg-config-file.patch: Add missing
+    -lfreerdp-client to pkg-config file. (Closes: #758257)
+  * debian/rules: Build with -DARM_FP_ABI=hard on armhf.
+  * debian/libfreerdp1.symbols: Remove internal symbols.
+
+  [ Mike Gabriel ]
+  * debian/patches:
+    + Add 2001_detect-ffmpeg-on-Debian.patch. Facilitate building FreeRDP with
+      FFmpeg in Debian. (Closes: #758338).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 17 Aug 2014 22:21:27 +0200
+
+freerdp (1.1.0~git20140809.1.b07a5c1+dfsg-2) unstable; urgency=medium
+
+  * debian/libfreerdp1.symbols:
+    + Fix FTBFS on ppc64el architectures. (Closes: #757878).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 12 Aug 2014 00:34:25 +0200
+
+freerdp (1.1.0~git20140809.1.b07a5c1+dfsg-1) unstable; urgency=medium
+
+  * New Git snapshot upload to unstable:
+    - Obtained from stable-1.1 branch of http://github.com/FreeRDP/FreeRDP.
+      Using commit hash: b07a5c11e41c70916e9725b4207f90fc90fd2d57.
+      --- Now with correct upstream ChangeLog ---
+  * debian/rules:
+    + In get-orig-source, ensure creation of a proper upstream ChangeLog
+      from the Git commits. Overwrite un-maintained / existing upstream
+      ChangeLog.
+  * debian/patches:
+    + Drop 0001_freerdp-ffmpeg.patch. Applied upstream.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 10 Aug 2014 00:18:13 +0200
+
+freerdp (1.1.0~git20140808.1.7b5cd86+dfsg-1) unstable; urgency=medium
+
+  * New Git snapshot upload to unstable:
+    - Obtained from stable-1.1 branch of http://github.com/FreeRDP/FreeRDP.
+      Using commit hash: 7b5cd86a3e8eb3b22893f259c8039da982da0a99.
+      Recommended by: Bernhard Miklautz on IRC (#freerdp channel on Freenode)
+      on 7th Aug 2014.
+  * Drop APSL licensed files from upstream sources. Don't ship upstream code of
+    the Android/Mac/iOS/Windows clients in Debian.
+  * debian/watch:
+    + Mangle Debian version (-> +dfsg).
+  * debian/copyright:
+    + Bring file up-to-date.
+  * debian/patches:
+    + Add 0001_freerdp-ffmpeg.patch. Fix build against libav10, taken from an
+      upstream pull request yet to be merged.
+  * debian/control:
+    + Make B-Ds more readable (arrange in multi-lines). Add B-D: libjpeg-dev.
+  * debian/rules:
+    + Enable further build flags: WITH_CUPS=on (CUPS printer redirection),
+      WITH_PCSC=on (smart card reader redirection), WITH_JPEG (libjpeg support).
+  * debian/libfreerdp1.symbols:
+    + Update symbols file for latest Git snapshot.
+  * lintian:
+    + Add overrides file for libfreerdp-plugins-standard, the package
+      erroneously triggers debhelper's makeshlibs.
+    + Ignore a very long file name in bin:package
+      libfreerdp-plugins-standard-dbg.
+    + Update libfreerdp1 (package-name-doesnt-match-sonames) override. Library
+      names have changed.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Fri, 08 Aug 2014 18:29:47 +0200
+
+freerdp (1.1.0~beta1+git20130629-1) experimental; urgency=low
+
+  * Development snapshot [June 2013]. Targeted for Debian experimental.
+    Based on upstream commit: 1274752506e97ac597fc02196ae83e63662e0753.
+  * debian/control: add B-D: libxi-dev.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sat, 29 Jun 2013 11:50:57 +0200
+
+freerdp (1.0.2-4) unstable; urgency=low
+
+  * debian/patches:
+    + Add patch: 2001_fix-libav10-FTBFS.patch. Fix FTBFS against libav10.
+      (Closes: #739242).
+  * debian/control:
+    + Bump Standards: version to 3.9.5. No changes needed.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 12 Mar 2014 13:09:41 +0100
+
+freerdp (1.0.2-3) unstable; urgency=low
+
+  * Add patch: 1001_fix-compliling.patch. Fix compilation errors
+    against libfreerdp-dev. Thanks to Jean-Baptiste Rouault for
+    reporting this. (Closes: #729044).
+  * debian/control:
+    + Alioth-canonicalize Vcs-*: fields.
+    + Make freerdp-dbg bin:package Multi-Arch: same.
+    + Split up freerdp-dbg in several -dbg packages (freerdp-x11-dbg
+      -> multi-arch: no, libfreerdp*-dbg -> Multi-Arch: same).
+  * debian/rules:
+    + Patch generated man page file. Fixes hyphen-used-as-minus-sign
+      lintian issue.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sat, 09 Nov 2013 13:34:40 +0100
+
+freerdp (1.0.2-2) unstable; urgency=low
+
+  * debian/watch: Upstream has moved to Github a while ago.
+  * New maintainer: Mike Gabriel <sunweaver@debian.org>. Former
+    maintainer Otavio Salvador <otavio@debian.org> moved to
+    Uploaders.
+  * debian/copyright: Name copyright holders of the several project
+    files. Make it more compliant to DEP-5.
+  * Comply more with Standards: 3.9.4. (After updating of debian/copyright).
+  * Lintian issue fixed: freerdp source: binary-control-field-duplicates-source
+    field "section" in package freerdp-x11.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Fri, 28 Jun 2013 18:11:42 +0200
+
+freerdp (1.0.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Remove 1.0-stable-sync.patch , this release contains those fixes.
+  * Update libfreerdp1 symbols.
+  * Update Standards-Version to 3.9.4 .
+  * Add myself to uploaders.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.hu>  Fri, 15 Mar 2013 20:12:30 +0100
+
+freerdp (1.0.1-2) unstable; urgency=low
+
+  * debian/control: Fix suggeting package name. Closes: #674138.
+  * New upstream stable snapshot:
+    - Fix handling of numlock with remoteapp. Closes: #683885.
+    - libfreerdp-gdi: add PatBlt DPa operation. Closes: #662854.
+  * libfreerdp1: Update symbols
+  * debian/*.install, debian/control: Add multiarch support.
+  * debian/rules: Enable PulseAudio support. Closes: #672604
+  * debian/compat: Bump to 9 so debhelper can handle build flags
+    automatically for CMake.
+
+ -- Otavio Salvador <otavio@debian.org>  Sat, 27 Oct 2012 16:19:56 -0200
+
+freerdp (1.0.1-1) unstable; urgency=low
+
+  [ Jeremy Bicha ]
+  * New upstream release. Closes: #659332.
+  * Updated symbols
+
+ -- Otavio Salvador <otavio@debian.org>  Sat, 11 Feb 2012 10:34:05 -0200
+
+freerdp (1.0.0-2) unstable; urgency=low
+
+  [ Jeremy Bicha ]
+  * Don't install the freerdp keymaps; they're provided by xkb   
+
+ -- Otavio Salvador <otavio@debian.org>  Tue, 31 Jan 2012 23:50:40 -0200
+
+freerdp (1.0.0-1) unstable; urgency=low
+
+  [ Jeremy Bicha ]
+  * New upstream release. Closes: #647498.
+  * Updated symbols and bumped soname
+  * debian/control:
+    - Added new build dependencies
+    - Bump Standards-Version to 3.9.2
+  * debian/source/format: Set to 3.0 (quilt)
+  * debian/rules: Turn on strict symbols checking
+  * debian/watch: Watch github
+
+  [ Jean-Louis Dupond ]
+  * debian/control: Updated homepage
+  * debian/copyright: Reflect upstream switch to the Apache license
+
+  [ Martin Pitt ]
+  * debian/libfreerdp0.symbols: Fix version number, should
+    be 1.0~beta5, not 1.0-beta5.
+  * debian/control: Add libavcodec-dev build dependency, upstream build system
+    checks for that. Thanks Jean-Louis Dupond!
+
+ -- Otavio Salvador <otavio@debian.org>  Tue, 31 Jan 2012 11:46:23 -0200
+
+freerdp (0.8.2-2) unstable; urgency=low
+
+  * freerdp-x11: recommends libfreerdp-plugins-standard. Closes:
+    #603462.
+
+ -- Otavio Salvador <otavio@debian.org>  Fri, 19 Nov 2010 19:27:45 -0200
+
+freerdp (0.8.2-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Otavio Salvador <otavio@debian.org>  Sat, 13 Nov 2010 10:58:11 -0200
+
+freerdp (0.8.1-2) unstable; urgency=low
+
+  * Add symbols file to allow for correct depends. Closes: #602218.
+
+ -- Otavio Salvador <otavio@debian.org>  Wed, 03 Nov 2010 09:46:00 -0200
+
+freerdp (0.8.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Otavio Salvador <otavio@debian.org>  Mon, 25 Oct 2010 14:29:02 -0200
+
+freerdp (0.7.4-1) unstable; urgency=low
+
+  * New upstream release.
+    - Fixes connection with VirtualBox RDP server. Closes: #592454.
+  * Bump standards-version; no changes needed.
+
+ -- Otavio Salvador <otavio@debian.org>  Thu, 26 Aug 2010 11:07:49 -0300
+
+freerdp (0.7.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Fix section of libfreerdp0 to follow overrides.
+  * Add a watch file so it is easier to track new releases.
+
+ -- Otavio Salvador <otavio@debian.org>  Tue, 27 Jul 2010 01:13:00 -0300
+
+freerdp (0.7.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Otavio Salvador <otavio@debian.org>  Mon, 05 Jul 2010 14:05:26 -0300
+
+freerdp (0.7.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/copyright: add missing entries.
+
+ -- Otavio Salvador <otavio@debian.org>  Wed, 23 Jun 2010 21:39:09 -0300
+
+freerdp (0.7.0+debian-1) unstable; urgency=low
+
+  * Initial release.
+  * Rebuild upstream tarball without debian directory.
+
+ -- Otavio Salvador <otavio@debian.org>  Fri, 18 Jun 2010 15:09:19 -0300

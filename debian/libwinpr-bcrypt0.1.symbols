@@ -1,0 +1,15 @@
+libwinpr-bcrypt.so.0.1 libwinpr-bcrypt0.1 #MINVER#
+ BCryptCloseAlgorithmProvider@Base 1.1.0~beta1+git20130629
+ BCryptCreateHash@Base 1.1.0~beta1+git20130629
+ BCryptDecrypt@Base 1.1.0~beta1+git20130629
+ BCryptDestroyHash@Base 1.1.0~beta1+git20130629
+ BCryptDestroyKey@Base 1.1.0~beta1+git20130629
+ BCryptEncrypt@Base 1.1.0~beta1+git20130629
+ BCryptFinishHash@Base 1.1.0~beta1+git20130629
+ BCryptGenRandom@Base 1.1.0~beta1+git20130629
+ BCryptGenerateKeyPair@Base 1.1.0~beta1+git20130629
+ BCryptGenerateSymmetricKey@Base 1.1.0~beta1+git20130629
+ BCryptGetProperty@Base 1.1.0~beta1+git20130629
+ BCryptHashData@Base 1.1.0~beta1+git20130629
+ BCryptImportKey@Base 1.1.0~beta1+git20130629
+ BCryptOpenAlgorithmProvider@Base 1.1.0~beta1+git20130629

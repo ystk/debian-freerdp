@@ -1,0 +1,10 @@
+libwinpr-asn1.so.0.1 libwinpr-asn1-0.1 #MINVER#
+ ASN1DecSetError@Base 1.1.0~beta1+git20130629
+ ASN1EncSetError@Base 1.1.0~beta1+git20130629
+ ASN1_CloseEncoder@Base 1.1.0~beta1+git20130629
+ ASN1_CloseModule@Base 1.1.0~beta1+git20130629
+ ASN1_CreateEncoder@Base 1.1.0~beta1+git20130629
+ ASN1_CreateModule@Base 1.1.0~beta1+git20130629
+ ASN1_Encode@Base 1.1.0~beta1+git20130629
+ ASN1_FreeDecoded@Base 1.1.0~beta1+git20130629
+ ASN1_FreeEncoded@Base 1.1.0~beta1+git20130629

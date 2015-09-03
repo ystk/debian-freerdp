@@ -1,0 +1,2 @@
+usr/include/*/winpr/*.h
+usr/lib/*/libwinpr-*.so

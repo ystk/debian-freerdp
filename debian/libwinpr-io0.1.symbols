@@ -1,0 +1,11 @@
+libwinpr-io.so.0.1 libwinpr-io0.1 #MINVER#
+ CancelIo@Base 1.1.0~beta1+git20130629
+ CancelIoEx@Base 1.1.0~beta1+git20130629
+ CancelSynchronousIo@Base 1.1.0~beta1+git20130629
+ CreateIoCompletionPort@Base 1.1.0~beta1+git20130629
+ DeviceIoControl@Base 1.1.0~beta1+git20130629
+ GetOverlappedResult@Base 1.1.0~beta1+git20130629
+ GetOverlappedResultEx@Base 1.1.0~beta1+git20130629
+ GetQueuedCompletionStatus@Base 1.1.0~beta1+git20130629
+ GetQueuedCompletionStatusEx@Base 1.1.0~beta1+git20130630
+ PostQueuedCompletionStatus@Base 1.1.0~beta1+git20130629

@@ -1,0 +1,5 @@
+usr/include/*/freerdp/*.h
+usr/include/*/freerdp/*/*.h
+usr/lib/*/libfreerdp-*.so
+usr/lib/*/libxfreerdp-client.so
+usr/lib/*/pkgconfig

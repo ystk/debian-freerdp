@@ -1,0 +1,12 @@
+1001_hide-internal-symbols.patch
+1002_update-pkg-config-file.patch
+1003_multi-arch-include-path.patch
+1004_64-bit-architectures.patch
+1005_parse-buffer-endianess.patch
+1006_test-unicode-endianess.patch
+1007_detect-arm-arch-correctly.patch
+1008_gcc-fPIC-on-arm64.patch
+2001_detect-ffmpeg-on-Debian.patch
+0001_fix-cmdline-parser.patch
+0002_handle-old-style-cmdline-options.patch
+0003_copy-data-when-adding-glyph-to-cache.patch

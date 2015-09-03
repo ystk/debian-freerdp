@@ -1,0 +1,13 @@
+libwinpr-error.so.0.1 libwinpr-error0.1 #MINVER#
+ AddVectoredContinueHandler@Base 1.1.0~beta1+git20130629
+ AddVectoredExceptionHandler@Base 1.1.0~beta1+git20130629
+ GetErrorMode@Base 1.1.0~beta1+git20130629
+ GetLastError@Base 1.1.0~beta1+git20130629
+ RaiseException@Base 1.1.0~beta1+git20130629
+ RemoveVectoredContinueHandler@Base 1.1.0~beta1+git20130629
+ RemoveVectoredExceptionHandler@Base 1.1.0~beta1+git20130629
+ RestoreLastError@Base 1.1.0~beta1+git20130629
+ SetErrorMode@Base 1.1.0~beta1+git20130629
+ SetLastError@Base 1.1.0~beta1+git20130629
+ SetUnhandledExceptionFilter@Base 1.1.0~beta1+git20130629
+ UnhandledExceptionFilter@Base 1.1.0~beta1+git20130629

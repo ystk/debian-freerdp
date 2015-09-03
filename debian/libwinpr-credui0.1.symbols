@@ -1,0 +1,13 @@
+libwinpr-credui.so.0.1 libwinpr-credui0.1 #MINVER#
+ CredUICmdLinePromptForCredentialsA@Base 1.1.0~beta1+git20130629
+ CredUICmdLinePromptForCredentialsW@Base 1.1.0~beta1+git20130629
+ CredUIConfirmCredentialsA@Base 1.1.0~beta1+git20130629
+ CredUIConfirmCredentialsW@Base 1.1.0~beta1+git20130629
+ CredUIParseUserNameA@Base 1.1.0~beta1+git20130629
+ CredUIParseUserNameW@Base 1.1.0~beta1+git20130629
+ CredUIPromptForCredentialsA@Base 1.1.0~beta1+git20130629
+ CredUIPromptForCredentialsW@Base 1.1.0~beta1+git20130629
+ CredUIReadSSOCredA@Base 1.1.0~beta1+git20130629
+ CredUIReadSSOCredW@Base 1.1.0~beta1+git20130629
+ CredUIStoreSSOCredA@Base 1.1.0~beta1+git20130629
+ CredUIStoreSSOCredW@Base 1.1.0~beta1+git20130629
