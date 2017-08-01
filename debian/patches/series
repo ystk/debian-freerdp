@@ -10,3 +10,4 @@
 0001_fix-cmdline-parser.patch
 0002_handle-old-style-cmdline-options.patch
 0003_copy-data-when-adding-glyph-to-cache.patch
+0008-Fix-multiple-security-issues.patch
