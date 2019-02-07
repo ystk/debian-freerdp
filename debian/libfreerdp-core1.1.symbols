@@ -120,9 +120,11 @@ libfreerdp-core.so.1.1 libfreerdp-core1.1 #MINVER#
  credssp_buffer_print@Base 1.1.0~beta1+git20130629
  credssp_client_authenticate@Base 1.1.0~beta1+git20130629
  credssp_decrypt_public_key_echo@Base 1.1.0~beta1+git20130629
+ credssp_decrypt_public_key_hash@Base 1.1.0~git20140921.1.440916e+dfsg1-13+deb9u3
  credssp_decrypt_ts_credentials@Base 1.1.0~beta1+git20130629
  credssp_encode_ts_credentials@Base 1.1.0~beta1+git20130629
  credssp_encrypt_public_key_echo@Base 1.1.0~beta1+git20130629
+ credssp_encrypt_public_key_hash@Base 1.1.0~git20140921.1.440916e+dfsg1-13+deb9u3
  credssp_encrypt_ts_credentials@Base 1.1.0~beta1+git20130629
  credssp_free@Base 1.1.0~beta1+git20130629
  credssp_new@Base 1.1.0~beta1+git20130629

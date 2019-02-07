@@ -1,7 +1,7 @@
 Description: Command line parser fixes.
 Author: Bernhard Miklautz <bernhard.miklautz@shacknet.at>
 Abstract:
- The command line parser had serveral problems when old style syntax
+ The command line parser had several problems when old style syntax
  was used.
 
 diff --git a/client/common/cmdline.c b/client/common/cmdline.c

@@ -24,6 +24,7 @@ libwinpr-sspi.so.0.1 libwinpr-sspi0.1 #MINVER#
  FreeContextBuffer_EnumerateSecurityPackages@Base 1.1.0~beta1+git20130629
  FreeContextBuffer_QuerySecurityPackageInfo@Base 1.1.0~beta1+git20130629
  FreeCredentialsHandle@Base 1.1.0~beta1+git20130629
+ GetSecurityStatusString@Base 1.1.0~git20140921.1.440916e+dfsg1-13+deb9u3
  ImpersonateSecurityContext@Base 1.1.0~beta1+git20130629
  ImportSecurityContextA@Base 1.1.0~beta1+git20130629
  ImportSecurityContextW@Base 1.1.0~beta1+git20130629

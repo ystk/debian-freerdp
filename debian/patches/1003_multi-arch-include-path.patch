@@ -19,7 +19,18 @@ Author: Mike Gabriel <mike.gabriel@das-netzkwerkteam.de>
  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
  
  # Configure files
---- a/winpr/include/CMakeLists.txt
+--- a/freerdp.pc.in
++++ b/freerdp.pc.in
+@@ -1,7 +1,7 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+ libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+-includedir=@CMAKE_INSTALL_PREFIX@/include
++includedir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@
+ 
+ Name: FreeRDP
+ Description: A free remote desktop protocol client
+--- b/winpr/include/CMakeLists.txt
 +++ b/winpr/include/CMakeLists.txt
 @@ -16,4 +16,4 @@
  # limitations under the License.

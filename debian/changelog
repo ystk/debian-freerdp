@@ -1,3 +1,188 @@
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-13~deb8u3) jessie-security; urgency=medium
+
+  * Backport recent stretch update (+deb9u3) of FreeRDP v1.1 to Debian
+    jessie LTS.
+  * debian/control:
+    + Switch back to B-D libssl-dev for Debian jessie LTS build.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 10 Jan 2019 16:39:47 +0100
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-13+deb9u3) stretch; urgency=medium
+
+  * debian/patches: Add security patches.
+    - CVE-2018-8786.patch: The count variable in update_read_bitmap() needs to
+      be UINT32 (not UINT16).
+    - CVE-2018-8787.patch: In gdi_Bitmap_Decompress, check for invalid bpp,
+      width and height before decompressing.
+      CVE-2018-8788.patch: In NSC encode/decode functions, catch data flawed in
+      various ways and bail out with failure.
+      CVE-2018-8789.patch:  In ntlm_read_message_fields_buffer, check buffer
+      offset vs. Stream_Length and bail out if not appropriate.
+    - Thanks to Alex Murray for backporting them to FreeRDP 1.1.
+  * debian/patches:
+    + Add 0010_add-support-for-credssp-v3-and-rdpproto-v6.patch. Add CredSSP v3
+      and RDP proto v6 support. This allows users to connect to recently
+      (since March 2018) updated Microsoft RDP servers again.
+      Thanks to Bernhard Miklautz and Martin Fleisz for helping out with
+      backporting this patch. Much appreciated!
+  * debian/control:
+    + Update Vcs-*: URLs.
+  * debian/lib{freerdp-core1.1,winpr-sspi0.1}.symbols: Update symbols.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 10 Jan 2019 16:07:19 +0100
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-13+deb9u2) stretch; urgency=medium
+
+  [ Bernhard Miklautz ]
+  * debian/patches:
+    + Add 0009-enable-TLS-12.patch. Enable TLS 1+ support. (Closes: #871478).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sat, 12 Aug 2017 15:26:43 -0400
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-13+deb9u1) stretch-security; urgency=high
+
+  [ Bernhard Miklautz ]
+  * debian/patches:
+   + Add fix for CVE-2017-2834, CVE-2017-2835, CVE-2017-2836,
+     CVE-2017-2837, CVE-2017-2838, CVE-2017-2839 (Closes: #869880)
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 27 Jul 2017 23:53:25 +0200
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-13) unstable; urgency=medium
+
+  [ James Clarke ]
+  * debian/patches:
+    + Add 1013_aligned_meminfo_alignment.patch. Fix FTBFS in testsuite on
+      SPARC64 architecture. (Closes: #764432).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 26 Jan 2017 11:40:07 +0100
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-12) unstable; urgency=medium
+
+  * debian/control:
+    + Drop Otavio Salvador from Uploaders: field. Thanks for your previous
+      contributions. (Closes: #847251).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 23 Jan 2017 08:59:15 +0100
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-11) unstable; urgency=medium
+
+  * debian/control:
+    + New maintenance umbrella: Debian Remote Maintainers team.
+    + Temporary fix for FTBFS against libssl1.1-dev: use libssl1.0-dev for
+      now. (Closes:  #828142). But will be reopened with less severity
+      one the package has landed and the bug got auto-closed.
+    + Bump Standards-Version: to 3.9.8. No changes needed.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 30 Nov 2016 13:48:47 +0100
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-10) unstable; urgency=medium
+
+  * debian/rules:
+    + Fix more DEB_HOST_* vs. DEB_BUILD_* issues. (Closes: #822842).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 28 Apr 2016 23:01:32 +0200
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-9) unstable; urgency=medium
+
+  * debian/rules:
+    + Regression fix for usage of DEB_HOST_ARCH vs. DEB_BUILD_ARCH. Switching
+      back to DEB_HOST_ARCH to not break cross-builds. Thanks to Guillem Jover
+      for teaching me about the difference between those two options.
+      (Closes: #822842).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 28 Apr 2016 12:58:12 +0200
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-8) unstable; urgency=medium
+
+  * debian/rules:
+    + Use DEB_BUILD_ARCH, rather than DEB_HOST_ARCH when detecting armhf build
+      system.
+  * debian/{control,rules}:
+    + Build with -DCHANNEL_URBDRC_CLIENT=on only on Linux OSes. (Closes:
+      #815614).
+  * debian/control:
+    + Bump Standards: to 3.9.7. No changes needed.
+    + Add recent MS Windows releases to LONG_DESCRIPTION (of bin:pkg
+      freerdp-x11).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 27 Apr 2016 21:35:58 +0200
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-7) unstable; urgency=medium
+
+  * debian/rules:
+    + Fix missing backslash in list of configure arguments. (Closes: #815317).
+      Thanks to Emilio Pozuelo Monfort for spotting this.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sat, 20 Feb 2016 22:41:45 +0100
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-6) unstable; urgency=medium
+
+  [ Sriram Raghunathan ]
+  * debian/control:
+    + Fix typo in control file which is used to show package info. (Closes:
+      #768855).
+
+  [ Lionel Elie Mamane ]
+  * Enable URBDRC (USB redirection) channel. (Closes: #788005).
+
+  [ Alex 'AdUser' Z ]
+  * debian/patches:
+    + Add 1010_libudev-link.patch. Fix linking against libudev if building
+      USB redirection channel is enabled.
+
+  [ Mike Gabriel ]
+  * debian/{control,rules}:
+    + Drop B-D: libgstreamer-plugins-base0.10-dev. This requires disabling
+      gstreamer support and is a wanted and temporary regression. With
+      upcoming freerdp2 upload to Debian, gstreamer1.0 support will be
+      (re-)introduced. (Closes: #785898).
+  * debian/control:
+    + Add B-Ds: libusb-1.0-0-dev, libudev-dev, libdbus-glib-1-dev, uuid-dev.
+    + Use encrypted URLs for Vcs-*: field.
+    + Versioned B-D on dpkg-dev (>= 1.16.1.1).
+  * debian/rules:
+    + Enable all hardening flags.
+  * debian/patches:
+    + Add 0005_release-keys-when-xfreerdp-is-unfocused-to-prevent-s.patch.
+      Prevent Alt key from getting "stuck" with -grab-keyboard option when
+      using Alt-Tab to switch between local X windows. Thanks to Petr
+      Vorel <petr.vorel@gmail.com> for providing the patch. (Closes: #778650).
+    + Add 0006_fix-null-cert-that-is-not-an-error.patch. Fix null certificate
+      that is not an error. Thanks to Nathan Schulte for referencing the
+      upstream commit. Patch backported by myself to this freerdp Git snapshot.
+      (Closes: #803891).
+    + Add 0007_Fix-build-failure-on-x32.patch. Fix FTBFS on x32 architecture.
+      Thanks to Adam Borowski for providing this patch. (Closes: #808503).
+    + Add 1012_typo-fix.patch. Fix spelling of the work "occurred".
+
+  [ Andreas Cadhalpun ]
+  * debian/patches:
+    + Add 1011_ffmpeg-2.9.patch. Fix FTBFS against ffmpeg-2.9. (Closes:
+      #803814).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Fri, 19 Feb 2016 09:02:00 +0100
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-5) unstable; urgency=medium
+
+  * debian/patches:
+    + Improve 1003_multi-arch-include-path.patch. Also make include dir in
+      freerdp.pc (pkgconfig) multi-arch compliant. (Closes: #790636).
+    + Add 0004_build-cmake-3.1-compatibility.patch. Fix FTBFS with cmake 3.1.
+      (Closes: #788557). Thanks to Andreas Cadhalpun for helping out on this.
+  * debian/control:
+    + Bump Standards: to 3.9.6. No changes needed.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 19 Aug 2015 23:26:17 +0200
+
+freerdp (1.1.0~git20140921.1.440916e+dfsg1-4+deb8u2) jessie-proposed-updates; urgency=medium
+
+  [ Bernhard Miklautz ]
+  * debian/patches:
+    + Add 0009-enable-TLS-12.patch. Enable TLS 1+ support. (Closes: #871478).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 28 Aug 2017 18:56:18 +0200
+
 freerdp (1.1.0~git20140921.1.440916e+dfsg1-4+deb8u1) jessie-security; urgency=high
 
   [ Bernhard Miklautz ]

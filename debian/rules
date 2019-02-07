@@ -1,9 +1,8 @@
 #!/usr/bin/make -f
 
-export CPPFLAGS:=$(shell dpkg-buildflags --get CPPFLAGS)
-export CFLAGS:=$(shell dpkg-buildflags --get CFLAGS)
-export CXXFLAGS:=$(shell dpkg-buildflags --get CXXFLAGS)
-export LDFLAGS:=$(shell dpkg-buildflags --get LDFLAGS)
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
 
 NULL =
 
@@ -14,24 +13,32 @@ else
 ARM_FLOAT_ABI =
 endif
 
+DEB_HOST_ARCH_OS=$(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+ifneq (,$(filter linux,$(DEB_HOST_ARCH_OS)))
+LINUX_URBDRC_CLIENT = -DCHANNEL_URBDRC_CLIENT=on
+else
+LINUX_URBDRC_CLIENT = -DCHANNEL_URBDRC_CLIENT=off
+endif
+
 include /usr/share/cdbs/1/class/cmake.mk
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/utils.mk
 
 DEB_DH_INSTALL_ARGS += --fail-missing
 
-DEB_CMAKE_EXTRA_FLAGS :=  -DCMAKE_INSTALL_INCLUDEDIR=include/$(shell dpkg-architecture -qDEB_BUILD_MULTIARCH) \
+DEB_CMAKE_EXTRA_FLAGS :=  -DCMAKE_INSTALL_INCLUDEDIR=include/$(shell dpkg-architecture -qDEB_HOST_MULTIARCH) \
                           -DCMAKE_SKIP_RPATH=FALSE \
                           -DCMAKE_SKIP_INSTALL_RPATH=TRUE \
                           -DBUILD_TESTING=ON \
                           -DWITH_SERVER=OFF \
                           -DWITH_PULSE=ON \
-                          -DWITH_GSTREAMER=ON \
+                          -DWITH_GSTREAMER=OFF \
                           -DWITH_CHANNELS=ON \
                           -DSTATIC_CHANNELS=off \
                           -DWITH_CUPS=on \
                           -DWITH_PCSC=on \
                           -DWITH_JPEG=on \
+                          $(LINUX_URBDRC_CLIENT) \
                           $(ARM_FLOAT_ABI) \
                           $(NULL)
 
@@ -91,8 +98,8 @@ DEB_DH_STRIP_ARGS_freerdp-x11 = --dbg-package=freerdp-x11-dbg
 DEB_DH_STRIP_ARGS_libxfreerdp-client1.1 = --dbg-package=libxfreerdp-client-dbg
 
 remove-cruft::
-	rm -f debian/tmp/usr/lib/$(shell dpkg-architecture -qDEB_BUILD_MULTIARCH)/libwinpr-makecert-tool.a
-	rm -f debian/tmp/usr/lib/$(shell dpkg-architecture -qDEB_BUILD_MULTIARCH)/freerdp/cliprdr-client.a
+	rm -f debian/tmp/usr/lib/$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)/libwinpr-makecert-tool.a
+	rm -f debian/tmp/usr/lib/$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)/freerdp/cliprdr-client.a
 
 tweak-install::
 	@echo "Nothing to tweak after installation."

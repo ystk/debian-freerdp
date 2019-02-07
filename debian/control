@@ -1,15 +1,16 @@
 Source: freerdp
 Section: x11
 Priority: optional
-Maintainer: Mike Gabriel <sunweaver@debian.org>
+Maintainer: Debian Remote Maintainers <pkg-remote-team@lists.alioth.debian.org>
 Uploaders:
- Otavio Salvador <otavio@debian.org>,
+ Mike Gabriel <sunweaver@debian.org>,
  Laszlo Boszormenyi (GCS) <gcs@debian.hu>,
 Build-Depends:
  debhelper (>= 9),
  cdbs,
  autotools-dev,
  cmake,
+ dpkg-dev (>= 1.16.1.1),
  libasound2-dev,
  libcups2-dev,
  libpcsclite-dev,
@@ -28,11 +29,14 @@ Build-Depends:
  xmlto,
  libavcodec-dev,
  libxi-dev,
- libgstreamer-plugins-base0.10-dev,
-Standards-Version: 3.9.5
+ libusb-1.0-0-dev [linux-any],
+ libudev-dev [linux-any],
+ libdbus-glib-1-dev,
+ uuid-dev,
+Standards-Version: 3.9.8
 Homepage: http://www.freerdp.com/
-Vcs-Browser: http://anonscm.debian.org/gitweb?p=collab-maint/freerdp.git
-Vcs-Git: git://anonscm.debian.org/collab-maint/freerdp.git
+Vcs-Browser: https://salsa.debian.org/debian-remote-team/freerdp-1.1-legacy
+Vcs-Git: https://salsa.debian.org/debian-remote-team/freerdp-1.1-legacy.git
 
 Package: freerdp-x11
 Architecture: any
@@ -52,8 +56,9 @@ Description: RDP client for Windows Terminal Services (X11 client)
   * Windows Vista
   * Windows 2008/2008r2/2011SBS Server
   * Windows 7
-  * Windows 2012 Server
+  * Windows 2012/2012r2 Server
   * Windows 8
+  * Windows 10
  .
  This package contains the X11 based client.
 
@@ -556,7 +561,7 @@ Description: Windows Portable Runtime library (library)
  used instead of the equivalent WinPR implementation, without having to modify
  the code using it.
  .
- This package contains the winor-library shared library.
+ This package contains the winpr-library shared library.
 
 Package: libwinpr-path0.1
 Architecture: any
